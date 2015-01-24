@@ -1,0 +1,135 @@
+shortCode,name,description,sku,price.amount,Catalog,Category,variants[0].sku,variants[0].price,variants[0].variations[0].attribute,variants[0].variations[0].value,variants[0].variations[1].attribute,variants[0].variations[1].value,variants[0].variations[2].attribute,variants[0].variations[2].value,variants[1].sku,variants[1].price,variants[1].variations[0].attribute,variants[1].variations[0].value,variants[1].variations[1].attribute,variants[1].variations[1].value,variants[1].variations[2].attribute,variants[1].variations[2].value,variants[2].sku,variants[2].price,variants[2].variations[0].attribute,variants[2].variations[0].value,variants[2].variations[1].attribute,variants[2].variations[1].value,variants[2].variations[2].attribute,variants[2].variations[2].value,tags,ean,upc,isbn,asin,plu,specification,brand,manufacturer,publisher,studio,designer,author,artist,mpn,style_number,model_number
+AVOCA,Avocado,Add Avocado,176,1,TestCatalogName,Add-ons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ADD AVOCADO
+CHEES,Cheese,Add Cheese,177,1,TestCatalogName,Add-ons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ADD DELI CHEESE
+VEG,Veggies,Add Veggies,178,1,TestCatalogName,Add-ons,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ADD VEGGIES
+JALA,Jalapeno,Jalapeno,1,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+MULTI,Multiseed,Multiseed,2,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+ONION,Onion,Onion,3,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+PLAIN,Plain,Plain,4,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+POPPY,Poppy Seed,Poppy Seed,5,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+RYE,Rye Pumpernickle,Rye Pumpernickle,6,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+SALT,Salt,Salt,7,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+SESAM,Sesame,Sesame,8,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+WHEAT,Whole Wheat,Whole Wheat,9,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+TOMAT,Sundried Tomato,Sundried Tomato,10,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+GARLC,Garlic,Garlic,11,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+EGG,Egg,Egg,12,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+CHOC,Chocolate Chip,Chocolate Chip,13,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+COMBO,Combo,Combo,14,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+CINNA,Cinnamon Raisin,Cinnamon Raisin,15,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+BLUE,Blueberry,Blueberry,16,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+WHT-S,Whole Wheat Sesame,Whole Wheat Sesame,18,0.92,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BAGEL
+1/2DZ,1/2 Dozen Bagels,1/2 Dozen Bagels,20,6.75,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1/2 DZ BGELS
+DZN,Baker's Dozen Bagels,Baker's Dozen Bagels,26,11.95,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ONE DOZEN BAGEL
+BG+GM,Bagel/gourmet cream cheese,Bagel + gourmet cream cheese,28,3.25,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GOUR CRM CH TOFU
+BG+LX,Bagel/lox cr ch,Bagel + lox cream cheese,29,3.75,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,GOURMET LOX SPREAD
+BG+CR,Bagel/cr ch,Bagel + cream cheese,30,2.65,TestCatalogName,Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CLASSIC CRM CH
+DEVIL,Devil Eggs,Devil Eggs,165,3.25,TestCatalogName,Breakfast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,DEVIL EGG
+FRITT,Roasted Red Pepper Frittata Slice with salsa [D],Roasted Red Pepper Frittata Slice with salsa [D],166,5.95,TestCatalogName,Breakfast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+BURRT,Breakfast Burrito with egg & potatoes,Breakfast Burrito with egg & potatoes,167,5.95,TestCatalogName,Breakfast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,BURRITO
+YOGUR,16 oz. Parfait Yogurt with fresh made granola,16 oz. Parfait Yogurt with fresh made granola,168,5.95,TestCatalogName,Breakfast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,YOGOURT
+PLAIN,Plain Challah 1.25 Lb.,Plain Challah 1.25 Lb.,155,5.25,TestCatalogName,Challah,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,PL ROUND CHALLAH
+SESAM,Sesame Challah 1.25 Lb.,Sesame Challah 1.25 Lb.,156,5.25,TestCatalogName,Challah,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,REG CHALLA
+POP,Poppy Seed Challah 1.25 Lb.,Poppy Seed Challah 1.25 Lb.,157,5.25,TestCatalogName,Challah,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,REG CHALLA
+WHEAT,Whole Wheat Challah 1.25 Lb.,Whole Wheat Challah 1.25 Lb.,158,5.25,TestCatalogName,Challah,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,REG CHALLA
+6RLLS,Bag of 6 pcs. of Plain Challah Rolls,Bag of 6 pcs. of Plain Challah Rolls,159,4,TestCatalogName,Challah,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,6 C ROLLS
+1/8CK,1/8 Cheese Cake,1/8 Cheese Cake,137,19.95,TestCatalogName,Cheesecake,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CH CAKE
+1/4CK,1/4 Sheet Cheese Cake,1/4 Sheet Cheese Cake,138,58.95,TestCatalogName,Cheesecake,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CH CAKE
+1/2CK,1/2 Sheet Cheese Cake,1/2 Sheet Cheese Cake,139,98.95,TestCatalogName,Cheesecake,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CH CAKE
+CAPP,Cappuccino,Cappuccino,1185,2.5,TestCatalogName,Coffee,185,2.5,size,12OZ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12OZ CAPPUCINO
+COFEE,Coffee,Coffee,1186,1.5,TestCatalogName,Coffee,186,1.5,size,12OZ,,,,,192,1.75,size,16OZ,,,,,194,1.95,size,20OZ,,,,,,,,,,,,,,,,,,,,,12OZ COFFEE
+CHOC,Hot Chocolate,Hot Chocolate,1187,2.45,TestCatalogName,Coffee,187,2.45,size,12OZ,,,,,190,2.75,size,16OZ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12OZ HOT CHOC
+LATTE,Latte,Latte,1188,2.5,TestCatalogName,Coffee,188,2.5,size,12OZ,,,,,193,3.25,size,16OZ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12OZ LATTE
+MOCHA,Mocha,Mocha,1189,3,TestCatalogName,Coffee,189,3,size,12OZ,,,,,191,3.5,size,16OZ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,12OZ MOCHA
+XPRSO,Espresso,Espresso,196,0.6,TestCatalogName,Coffee,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,XTRA SHOT
+XPRSO,Espresso,Espresso,200,1.5,TestCatalogName,Coffee,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SINGLE ESPRESSO
+CHOC,Chocolate Chip Cookies [Dairy],Chocolate Chip Cookies [Dairy],86,1.45,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+OATM,Oatmeal Raisin [Dairy],Oatmeal Raisin [Dairy],87,1.45,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+M&M,M & M [Dairy],M & M [Dairy],88,1.25,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+SUGAR,Sugar Cookie [Dairy],Sugar Cookie [Dairy],89,1.45,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+FCHOC,Filled Chocolate Cokie [Dairy],Filled Chocolate Cokie [Dairy],90,1.45,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+PNUT,Peanut Butter [Dairy],Peanut Butter [Dairy],91,1.45,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+MACAR,Filled Macaroon Cookie [Dairy],Filled Macaroon Cookie [Dairy],92,1.45,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+FPNUT,Filled Peanut Butter Cookie [Dairy],Filled Peanut Butter Cookie [Dairy],93,1.45,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+CHOC,XL Chocolate Chip Cookie [Dairy],XL Chocolate Chip Cookie [Dairy],94,2.25,TestCatalogName,XL Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,XL COOKIE
+OATM,XL Oatmeal Raisin Cookie [Dairy],XL Oatmeal Raisin Cookie [Dairy],95,2.25,TestCatalogName,XL Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,XL COOKIE
+PNUT,XL Peanut Butter Cookie [Dairy],XL Peanut Butter Cookie [Dairy],96,2.25,TestCatalogName,XL Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,XL COOKIE
+SUGAR,XL Sugar Cookie [Dairy],XL Sugar Cookie [Dairy],97,2.25,TestCatalogName,XL Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,XL COOKIE
+M&M,M & M Lollipop Cookie [Dairy],M & M Lollipop Cookie [Dairy],98,2.25,TestCatalogName,XL Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,XL COOKIE
+SPRNK,Sprinkle Cookie [Parve],Sprinkle Cookie [Parve],99,1.25,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COOKIE
+B&W,Black & White Cookie [Parve],Black & White Cookie [Parve],100,2.25,TestCatalogName,Cookies,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,B & W
+RASPB,Raspberry Hamentashen $11.95/Lb Parve,Raspberry Hamentashen $11.95/Lb Parve,101,11.95,TestCatalogName,Hamentashen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,HAMENTASHEN
+PRUNE,Prune Hamentashen $11.95/Lb. Parve,Prune Hamentashen $11.95/Lb. Parve,102,11.95,TestCatalogName,Hamentashen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,HAMENTASHEN
+POPPY,Poppy Hamentashen $11.95/Lb Parve,Poppy Hamentashen $11.95/Lb Parve,103,11.95,TestCatalogName,Hamentashen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,HAMENTASHEN
+APRCT,Apricot Hamentashen $11.95/Lb Parve,Apricot Hamentashen $11.95/Lb Parve,104,11.95,TestCatalogName,Hamentashen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,HAMENTASHEN
+CHOC,Chocolate Hamentashen $11.95/Lb Dairy,Chocolate Hamentashen $11.95/Lb Dairy,105,11.95,TestCatalogName,Hamentashen,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,HAMENTASHEN
+MART,Martinelli's juice,Martinelli's juice,179,1.5,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"MARTINELLI ,S JUICE"
+MART2,Martinelli's juice - sparkling,Martinelli's juice - sparkling,180,1.5,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,MARTINELLI' SPARK
+ODWLA,Odwalla,Odwalla,181,4,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ODWALLA 160Z
+DRBRN,Dr. Brown,Dr. Brown,182,1.5,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,DR BROWN
+TEA,Tea,Tea,183,1.35,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,TEA
+SNPPL,Snapple,Snapple,184,1.5,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,SNAPPLE
+SODA,Soda,Soda,197,1.5,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CAN SODA
+ORNGA,Orangina,Orangina,198,1.5,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,ORANGINA
+WATER,Bottled water,Bottled water,199,1.5,TestCatalogName,Drinks,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WATER
+URN,TULLY'S COFFEE TO GO,TULLY'S COFFEE TO GO,201,17,TestCatalogName,Coffee,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,COFFEE URN
+VEGGI,Vegetarian Frittata [PARVE],Vegetarian Frittata [PARVE],174,24.95,TestCatalogName,Frittata Trays,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,V FRITTA T
+SPNCH,Spinach,Spinach,146,3.95,TestCatalogName,Knishes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,KNISH
+VEGGI,Veggie,Veggie,147,3.95,TestCatalogName,Knishes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,KNISH
+BROCC,Broccoli,Broccoli,148,3.95,TestCatalogName,Knishes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,KNISH
+KASHA,Kasha,Kasha,149,3.95,TestCatalogName,Knishes,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,KNISH
+8OZ,_ Lb. Gourmet Wild Lox [8oz.],_ Lb. Gourmet Wild Lox [8oz.],83,15,TestCatalogName,Lox,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1/2# LX GRMT
+4OZ,Gourmet Wild Lox [4oz.],Gourmet Wild Lox [4oz.],84,7.5,TestCatalogName,Lox,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1/4#LX GRMT
+CHOC,Double Chocolate,Double Chocolate,150,3.25,TestCatalogName,Muffins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,MUFFINS
+BNANA,Banana Nut,Banana Nut,151,3.25,TestCatalogName,Muffins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,MUFFINS
+CARRT,Glorious Morning - Carrot,Glorious Morning - Carrot,152,3.25,TestCatalogName,Muffins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,MUFFINS
+BLUE,Blueberry,Blueberry,153,3.25,TestCatalogName,Muffins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,MUFFINS
+LEMON,Lemon Poppy Seed,Lemon Poppy Seed,154,3.25,TestCatalogName,Muffins,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,MUFFINS
+BUTTR,4.5 oz. Butter Croissants,4.5 oz. Butter Croissants,111,2.95,TestCatalogName,Croissants,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CROISS SDW
+CHOC,4.25 oz. Chocolate Croissants,4.25 oz. Chocolate Croissants,112,2.95,TestCatalogName,Croissants,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CROISS SDW
+CREAM,4.25 oz. Cream Cheese Croissants,4.25 oz. Cream Cheese Croissants,113,2.95,TestCatalogName,Croissants,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CROISS SDW
+STRAW,4.25 oz. Strawberry Cream Cheese Croissants,4.25 oz. Strawberry Cream Cheese Croissants,114,2.95,TestCatalogName,Croissants,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CROISS SDW
+BLUE,4.25 oz. Blueberry Cream Cheese Croissants,4.25 oz. Blueberry Cream Cheese Croissants,115,2.95,TestCatalogName,Croissants,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CROISS SDW
+APPLE,4.55 oz. Apple Turnovers,4.55 oz. Apple Turnovers,116,2.95,TestCatalogName,Turnovers,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,PASTRIES
+CHRRY,4.55 oz. Cherry Turnovers,4.55 oz. Cherry Turnovers,117,2.95,TestCatalogName,Turnovers,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,PASTRIES
+CINNA,6.5 oz. Cinnamon Rolls,6.5 oz. Cinnamon Rolls,118,3.25,TestCatalogName,Turnovers,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CIN ROLLS
+SAMON,Smoked Baked Salmon Salad,Smoked Baked Salmon Salad,50,6.95,TestCatalogName,Salads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ FISH SALADS
+WHITE,Smoked White Fish Salad,Smoked White Fish Salad,51,6.95,TestCatalogName,Salads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ FISH SALADS
+HRCRM,Herring in Cream Sauce,Herring in Cream Sauce,52,6.5,TestCatalogName,Salads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ FISH SALADS
+HRWIN,Herring in Wine Sauce,Herring in Wine Sauce,53,6.5,TestCatalogName,Salads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ FISH SALADS
+TUNA,Izzy's Tuna Salad,Izzy's Tuna Salad,54,5.25,TestCatalogName,Salads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ EGGPLT TUNA SA
+EGG,Egg Salad,Egg Salad,55,4.25,TestCatalogName,Salads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ. EGG SALAD
+HUMUS,"Hummus or Veggie ""Chopped Liver""","Hummus or Veggie ""Chopped Liver""",63,4.5,TestCatalogName,Salads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ HUMMUS/VCL
+LENTL,Lentil with carrots 12oz.,Lentil with carrots 12oz.,79,4.55,TestCatalogName,Soups,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,120Z SOUP
+MINES,Minestrone 12oz.,Minestrone 12oz.,80,4.55,TestCatalogName,Soups,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,120Z SOUP
+BARLY,Barley 12oz.,Barley 12oz.,81,4.55,TestCatalogName,Soups,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,120Z SOUP
+FLAT,Flatgels,Flatgels,21,1.95,TestCatalogName,Specialty Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,FLAT BAGEL
+CHLLA,Challa Bagel,Challa Bagel,24,4.95,TestCatalogName,Specialty Bagels,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,CHELLA BGL
+STRAW,Strawberry Cream Cheese,Strawberry Cream Cheese,31,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+BLUE,Blueberry Cream Cheese,Blueberry Cream Cheese,32,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+CINNA,Cinnamon Raisin Cream Cheese,Cinnamon Raisin Cream Cheese,33,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+ORNG,Belgian Orange Chocolate Cream Cheese,Belgian Orange Chocolate Cream Cheese,34,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+WLNUT,Walnut Raisin Cream Cheese,Walnut Raisin Cream Cheese,35,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+CLSSC,Classic Cream Cheese,Classic Cream Cheese,36,3.5,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ CLASSIC
+LOFAT,Low - Fat Cream Cheese,Low - Fat Cream Cheese,37,3.5,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+CCMBR,Cucumber Scallion Cream Cheese,Cucumber Scallion Cream Cheese,38,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+CHIVE,Chive Cream Cheese,Chive Cream Cheese,39,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+GARLC,Dijon Garlic Cream Cheese,Dijon Garlic Cream Cheese,40,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+TOMTO,Sundried Tomato Cream Cheese,Sundried Tomato Cream Cheese,41,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+LOX,Lox Spread,Lox Spread,42,4.5,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ LOX SPREAD
+BOLV,Black Olive Cream Cheese,Black Olive Cream Cheese,43,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+GOLV,Green Olive & Garlic Cream Cheese,Green Olive & Garlic Cream Cheese,44,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+GOLV2,Green Olive & Pimento Cream Cheese,Green Olive & Pimento Cream Cheese,45,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+REDPP,Roasted Red Pepper Cream Cheese,Roasted Red Pepper Cream Cheese,46,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+SALSA,Mexican Salsa Cream Cheese,Mexican Salsa Cream Cheese,47,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+VEGGI,Veggie Cream Cheese,Veggie Cream Cheese,48,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+JLPNO,Jalapeno Cream Cheese,Jalapeno Cream Cheese,49,3.95,TestCatalogName,Spreads,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,8OZ GOUR CRM CH
+SAMON,"Baked Salmon with lettuce, tomato & cucumber","Baked Salmon with lettuce, tomato & cucumber",72,7.95,TestCatalogName,Wraps,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WRAPS EA
+EGG,"Egg Salad with lettuce, tomato & cucumber","Egg Salad with lettuce, tomato & cucumber",73,6.95,TestCatalogName,Wraps,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WRAPS EA
+EGGPL,Grilled Eggplant with Mushrooms & Onions,Grilled Eggplant with Mushrooms & Onions,74,6.95,TestCatalogName,Wraps,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WRAPS EA
+VEGGI,Grilled Veggies,Grilled Veggies,75,6.95,TestCatalogName,Wraps,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WRAPS EA
+HUMUS,Hummus & Falafel with tahina sauce,Hummus & Falafel with tahina sauce,76,6.95,TestCatalogName,Wraps,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WRAPS EA
+TUNA,"Tuna Salad with lettuce, tomato & cucumber","Tuna Salad with lettuce, tomato & cucumber",77,6.95,TestCatalogName,Wraps,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WRAPS EA
+WHITE,"White Fish Salad with lettuce, tomato & cucumber","White Fish Salad with lettuce, tomato & cucumber",78,7.95,TestCatalogName,Wraps,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,WRAPS EA
+BFAST,Egglette,Egglette,169,3.5,TestCatalogName,Breakfast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,EGGLETTE
+BFAST,Egglette - Cheese & Veggie,Egglette - Cheese & Veggie,170,6.36,TestCatalogName,Breakfast,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,EGLT C&V
