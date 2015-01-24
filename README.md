@@ -22,14 +22,10 @@ can just run:
 ```
 python src/PoyntAPI.py
 ```
+Optional args:
+* -v for verbose logging
+* -e ci or live to switch between live and ci environments
 
-NOTE: Please update the following parameters in src/PoyntAPI.py to match with yours from Poynt Developer Portal:
-
-```
-BUSINESS_ID = "<your-business-id>"
-APPLICATION_ID = "<your-application-id>"
-### Please make sure you update the following files with your
-### own public/private keys for your Application
-PRIVATE_KEY_FILE = 'keys/poynt_test_key'
-PUBLIC_KEY_FILE = 'keys/poynt_test_key.pub'
-```
+NOTE: Default configs are provided to help you quickly run and see how this works.
+Please update config/poynt.ini with your application settings so you have better
+control on your application and test business data.
