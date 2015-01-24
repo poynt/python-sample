@@ -10,6 +10,9 @@ import time
 import rsa
 import uuid
 import jwt
+import ConfigParser
+import getopt
+
 
 from calendar import timegm
 from datetime import datetime, timedelta
@@ -24,22 +27,7 @@ try:
 except ImportError:
     has_crypto = False
 
-### POYNT API URL and VERSION
-POYNT_API_HOST_URL = "https://services.poynt.net"
-POYNT_API_VERSION = '1.2'
-POYNT_AUTHZ_HOST_URL = "https://poynt.net"
-
-###############################################################
-###  Update the following variables with your own settings  ###
-###############################################################
-BUSINESS_ID = "2af9201b-316d-492f-a1b1-8278e7793254"
-APPLICATION_ID = "urn:aid:b32fb540-e730-42b9-9b1d-c131087d1dcd"
-### Please make sure you update the following files with your
-### own public/private keys for your Application
-PRIVATE_KEY_FILE = 'keys/poynt_test_key'
-PUBLIC_KEY_FILE = 'keys/poynt_test_key.pub'
-###############################################################
-
+POYNT_CONFIG = ConfigParser.ConfigParser()
 
 def utc_timestamp():
     return timegm(datetime.utcnow().utctimetuple())
@@ -158,7 +146,7 @@ class PoyntAPI:
         print "Fetching Business Users:"
         code, jsonObj = self._sendGetRequest(poyntBusinessUsersUrl, {}, {})
 
-    def createOrder(self, businessId):
+    def createOrder(self, businessId, storeId):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders"
         currentDatetime = datetime.utcnow()
         expiryDatetime = datetime.utcnow() + timedelta(seconds=300)
@@ -244,13 +232,13 @@ class PoyntAPI:
               "source":"WEB",
               "businessId": businessId,
               "storeDeviceId": self.applicationId,
-              "storeId": '07f15d7e-586f-4d2a-912c-96c1617d9a45'
+              "storeId": storeId
            },
            "statuses": {
               "status":"OPENED"
            },
-           "createdAt": "2015-01-17T01:51:23Z",
-           "updatedAt": "2015-01-17T01:51:23Z"
+           "createdAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+           "updatedAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
         }
         print "Recording a new Order:"
         code, jsonObj = self._sendPostRequest(poyntOrderUrl, json.dumps(order), {}, {})
@@ -259,7 +247,7 @@ class PoyntAPI:
 
     def getOrder(self, businessId, orderId):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders/" + orderId
-        headers = { 'If-Modified-Since': datetime.utcnow().isoformat() }
+        headers = { 'If-Modified-Since': datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ") }
         print "Fetching an Order:"
         code, jsonObj = self._sendGetRequest(poyntOrderUrl, {}, headers)
 
@@ -338,20 +326,60 @@ class PoyntAPI:
         return poyntAuthzUrl + urllib.urlencode(params)
 
 
-if(has_crypto):
-    poyntAPI = PoyntAPI(POYNT_API_HOST_URL, APPLICATION_ID)
-    if poyntAPI.getAccessToken() == True:
-        poyntAPI.getCatalogs(BUSINESS_ID)
-        poyntAPI.getProducts(BUSINESS_ID)
-        poyntAPI.getTaxes(BUSINESS_ID)
-        poyntAPI.getCustomers(BUSINESS_ID)
-        poyntAPI.getHooks(BUSINESS_ID)
-        poyntAPI.getBusiness(BUSINESS_ID)
-        poyntAPI.getBusinessUsers(BUSINESS_ID)
-        poyntAPI.createOrder(BUSINESS_ID)
-        poyntAPI.getOrders(BUSINESS_ID)
-        poyntAPI.refreshAccessToken()
+def main(argv):
+
+    global POYNT_ENV, POYNT_API_HOST_URL, POYNT_API_VERSION, POYNT_AUTHZ_HOST_URL
+    global BUSINESS_ID, APPLICATION_ID, PRIVATE_KEY_FILE, PUBLIC_KEY_FILE, DEBUG
+
+    POYNT_ENV = 'LIVE'
+    DEBUG = False
+
+    try:
+        opts, args = getopt.getopt(argv,"he:v",['env=', 'verbose'])
+    except getopt.GetoptError:
+        print 'PoyntAPI.py -e < CI or LIVE > -v'
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt == '-h':
+            print 'PoyntAPI.py -e < CI or LIVE > -v'
+            sys.exit()
+        elif opt in ('-e', '--env'):
+            POYNT_ENV = arg.upper()
+        elif opt in ('-v', '--verbose'):
+            DEBUG = True
+
+    print "Executing APIs in ", POYNT_ENV
+    POYNT_CONFIG.read('config/poynt.ini')
+    ### POYNT API URL and VERSION, Application settings
+    POYNT_API_HOST_URL = POYNT_CONFIG.get(POYNT_ENV,'POYNT_API_HOST_URL')
+    POYNT_API_VERSION = POYNT_CONFIG.get(POYNT_ENV,'POYNT_API_VERSION')
+    POYNT_AUTHZ_HOST_URL = POYNT_CONFIG.get(POYNT_ENV,'POYNT_AUTHZ_HOST_URL')
+    BUSINESS_ID = POYNT_CONFIG.get(POYNT_ENV,'BUSINESS_ID')
+    STORE_ID = POYNT_CONFIG.get(POYNT_ENV,'STORE_ID')
+    APPLICATION_ID = POYNT_CONFIG.get(POYNT_ENV,'APPLICATION_ID')
+    PRIVATE_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'PRIVATE_KEY_FILE')
+    PUBLIC_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'PUBLIC_KEY_FILE')
+
+    if(has_crypto):
+        poyntAPI = PoyntAPI(POYNT_API_HOST_URL, APPLICATION_ID)
+        if DEBUG == True:
+            poyntAPI.debug = DEBUG
+        if poyntAPI.getAccessToken() == True:
+            poyntAPI.getCatalogs(BUSINESS_ID)
+            poyntAPI.getProducts(BUSINESS_ID)
+            poyntAPI.getTaxes(BUSINESS_ID)
+            poyntAPI.getCustomers(BUSINESS_ID)
+            poyntAPI.getHooks(BUSINESS_ID)
+            poyntAPI.getBusiness(BUSINESS_ID)
+            poyntAPI.getBusinessUsers(BUSINESS_ID)
+            poyntAPI.createOrder(BUSINESS_ID, STORE_ID)
+            poyntAPI.getOrders(BUSINESS_ID)
+            poyntAPI.refreshAccessToken()
+        else:
+            print "Cannot continue without an AccessToken!"
     else:
-        print "Cannot continue without an AccessToken!"
-else:
-    print '\'cryptography\' package is required!'
+        print '\'cryptography\' package is required!'
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
