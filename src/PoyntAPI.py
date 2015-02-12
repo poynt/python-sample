@@ -92,7 +92,7 @@ class PoyntAPI:
             'iat': currentDatetime,
             'iss': self.applicationId,
             'sub': self.applicationId,
-            'aud': 'services.poynt.net',
+            'aud': 'https://services.poynt.net',
             'jti': str(uuid.uuid4())
         }
         encodedJWT = jwt.encode(payload, self.rsaPrivateKey, algorithm='RS256')
