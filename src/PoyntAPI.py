@@ -521,8 +521,7 @@ def main(argv):
                 #poyntAPI.addDiscount(BUSINESS_ID, catalogs[0]["id"])
                 #get catalog to check if it's added
                 #poyntAPI.getCatalog(BUSINESS_ID, catalogs[0]["id"])
-            poyntAPI.uploadProductCatalog(BUSINESS_ID)
-            poyntAPI.getCatalogs(BUSINESS_ID)
+            #poyntAPI.uploadProductCatalog(BUSINESS_ID)
             poyntAPI.getProducts(BUSINESS_ID)
             poyntAPI.getTaxes(BUSINESS_ID)
             poyntAPI.getCustomers(BUSINESS_ID)
