@@ -127,12 +127,57 @@ class PoyntAPI:
             print "*** FAILED TO REFRESH ACCESS TOKEN ***"
             return False
 
+    def getCatalog(self, businessId, catalogId):
+        poyntCatalogUrl = self.apiHost + "/businesses/" + businessId + "/catalogs/" + catalogId
+        print "Getting catalog: " + catalogId
+        code, jsonObj = self._sendGetRequest(poyntCatalogUrl, {}, {})
+
+    def addDiscount(self, businessId, catalogId):
+        poyntCatalogUrl = self.apiHost + "/businesses/" + businessId + "/catalogs/" + catalogId
+        jsonPatch = [
+              {
+                "op":"add", "path":"/availableDiscounts", "value":
+                [
+                  {
+                    "type": "PERCENTAGE",
+                    "percentage": 5.0,
+                    "code": "FIVERPERCENT",
+                    "scope": "ORDER",
+                    "when": {
+                      "repeat": "true",
+                      "repeatType": "DAILY",
+                      "every": [0]
+                    }
+                  }
+                ]
+              },
+              {
+                "op":"add", "path":"/categories/0/availableDiscounts", "value":
+                [
+                  {
+                    "type": "FIXED",
+                    "fixed": 5,
+                    "code": "FIVEDOLLAR",
+                    "when": {
+                      "repeat": "true",
+                      "repeatType": "DAILY",
+                      "every": [0]
+                    }
+                  }
+                ]
+              }
+            ]
+        print "Updating Catalog:"
+        code, jsonObj = self._sendPatchRequest(poyntCatalogUrl, json.dumps(jsonPatch), {}, {})
+
+
     def getCatalogs(self, businessId):
         poyntCatalogUrl = self.apiHost + "/businesses/" + businessId + "/catalogs"
-        print "Getching all Catalogs associated with business:"
+        print "Getting all Catalogs associated with business:"
         code, jsonObj = self._sendGetRequest(poyntCatalogUrl, {}, {})
         if code == requests.codes.ok:
             print "# of Catalogs found:" + str(len(jsonObj['catalogs']))
+            return jsonObj['catalogs']
 
     def getProducts(self, businessId):
         poyntProductUrl = self.apiHost + "/businesses/" + businessId + "/products"
@@ -341,6 +386,32 @@ class PoyntAPI:
             prettyPrint(r.json())
         return r.status_code, r.json()
 
+    def _sendPatchRequest(self, url, payload, queryParameters, customHeaders):
+        requestId = str(uuid.uuid4())
+        commonHeaders = { 'api-version':POYNT_API_VERSION,
+                    "User-Agent": 'PoyntSample-Python',
+                    'Poynt-Request-Id': requestId,
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'Authorization': self.tokenType + " " + self.accessToken}
+        headers = dict(commonHeaders.items() + customHeaders.items())
+        startTime = datetime.now()
+        req = requests.Request('PATCH', url, data=payload, params=queryParameters, headers=headers)
+        prepared = req.prepare()
+        if self.debug == True:
+            pretty_print_POST(prepared)
+        else:
+            print "\tPOST " + url
+        s = requests.Session()
+        r = s.send(prepared)
+        endTime = datetime.now()
+        delta = endTime - startTime
+        print "\tHTTP RESPONSE CODE:" + str(r.status_code)
+        print "\tRESPONSE TIME: " + str(delta.total_seconds() * 1000) + " msecs"
+        if self.debug == True:
+            print "\tRESPONSE JSON:"
+            prettyPrint(r.json())
+        return r.status_code, r.json()
+
     def _sendFormPostRequest(self, url, payload, customHeaders):
         requestId = str(uuid.uuid4())
         commonHeaders = { 'api-version':POYNT_API_VERSION,
@@ -442,7 +513,14 @@ def main(argv):
         if DEBUG == True:
             poyntAPI.debug = DEBUG
         if poyntAPI.getAccessToken() == True:
-            poyntAPI.getCatalogs(BUSINESS_ID)
+            catalogs = poyntAPI.getCatalogs(BUSINESS_ID)
+            if catalogs != None:
+                for catalog in catalogs:
+                    poyntAPI.getCatalog(BUSINESS_ID, catalog["id"])
+                #add a discount to one of the catalog
+                #poyntAPI.addDiscount(BUSINESS_ID, catalogs[0]["id"])
+                #get catalog to check if it's added
+                #poyntAPI.getCatalog(BUSINESS_ID, catalogs[0]["id"])
             poyntAPI.uploadProductCatalog(BUSINESS_ID)
             poyntAPI.getCatalogs(BUSINESS_ID)
             poyntAPI.getProducts(BUSINESS_ID)
