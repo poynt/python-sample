@@ -381,10 +381,13 @@ class PoyntAPI:
         delta = endTime - startTime
         print "\tHTTP RESPONSE CODE:" + str(r.status_code)
         print "\tRESPONSE TIME: " + str(delta.total_seconds() * 1000) + " msecs"
-        if self.debug == True:
+        if not r.text and self.debug:
             print "\tRESPONSE JSON:"
             prettyPrint(r.json())
-        return r.status_code, r.json()
+        if not r.text:
+            return r.status_code, r.json()
+        else:
+            return r.status_code, None
 
     def _sendPatchRequest(self, url, payload, queryParameters, customHeaders):
         requestId = str(uuid.uuid4())
