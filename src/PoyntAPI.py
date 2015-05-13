@@ -212,90 +212,55 @@ class PoyntAPI:
         print "Fetching Business Users:"
         code, jsonObj = self._sendGetRequest(poyntBusinessUsersUrl, {}, {})
 
+    def registerWebhooks(self, businessId):
+        poyntWebHookUrl = self.apiHost + "/hooks"
+        print "Registering Webhooks:"
+        hook = {
+            "applicationId": self.applicationId,
+            "businessId": businessId,
+            "deliveryUrl": "http://a22seventhsdeux.mybluemix.net/api/v1/notification",
+            "secret": "not-the-secret-you-know",
+            "eventTypes":[
+                "ORDER_OPENED",
+                "ORDER_COMPLETED",
+                "ORDER_CANCELLED",
+                "ORDER_UPDATED"
+            ]
+        }
+        code, jsonObj = self._sendPostRequest(poyntWebHookUrl, json.dumps(hook), {}, {})
+        if code == requests.codes.ok or code == requests.codes.created:
+            self.getHooks(businessId)
+
+    def deleteWebhook(self, businessId, hookId):
+        poyntWebHookUrl = self.apiHost + "/hooks/" + hookId
+        code = self._sendDeleteRequest(poyntWebHookUrl, {})
+        if code == requests.codes.no_content:
+            self.getHooks(businessId)
+
     def createOrder(self, businessId, storeId):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders"
         currentDatetime = datetime.utcnow()
         expiryDatetime = datetime.utcnow() + timedelta(seconds=300)
         order = {
-            "items":[
+          "items":[
               {
-                 "status":"ORDERED",
-                 "name":"Croissant",
-                 "unitOfMeasure":"EACH",
-                 "unitPrice":195,
-                 "tax":32,
-                 "discount":20,
-                 "quantity":2.0,
-                 "discounts":[
-                    {
-                       "customName":"item-on-sale",
-                       "amount":5
-                    },
-                    {
-                       "customName":"buy 2, get 15 cents off",
-                       "amount":15
-                    }
-                 ]
-              },
-              {
-                 "status":"ORDERED",
-                 "name":"Sparkling Water",
-                 "unitOfMeasure":"EACH",
-                 "unitPrice":425,
-                 "tax":35,
-                 "quantity":1.0
-              },
-              {
-                 "status":"ORDERED",
-                 "name":"Green Tea",
-                 "unitOfMeasure":"EACH",
-                 "unitPrice":350,
-                 "tax":28,
-                 "quantity":1.0
-              },
-              {
-                 "status":"ORDERED",
-                 "name":"Coconut Water",
-                 "unitOfMeasure":"EACH",
-                 "unitPrice":550,
-                 "tax":45,
-                 "quantity":1.0
-              },
-              {
-                 "status":"ORDERED",
+                 "status":"FULFILLED",
                  "name":"Coffee",
                  "unitOfMeasure":"EACH",
                  "unitPrice":250,
-                 "tax":20,
-                 "quantity":1.0
-              },
-              {
-                 "status":"ORDERED",
-                 "name":"Latte",
-                 "unitOfMeasure":"EACH",
-                 "unitPrice":415,
-                 "tax":34,
-                 "quantity":1.0
-              }
-           ],
-           "discounts":[
-              {
-                 "customName":"Special discount 1",
-                 "amount":50
-              },
-              {
-                 "customName":"Repeat Customer discount",
-                 "amount":30
+                 "quantity":1.0,
+                 "tax":0,
+                 "sku": "ABC123"
               }
            ],
            "amounts": {
-              "taxTotal":194,
-              "subTotal":2380,
-              "discountTotal":-100,
+              "taxTotal":0,
+              "subTotal":250,
+              "discountTotal":0,
               "currency":"USD"
            },
            "context": {
-              "source":"WEB",
+              "source":"MOBILE",
               "businessId": businessId,
               "storeDeviceId": self.applicationId,
               "storeId": storeId
@@ -360,6 +325,23 @@ class PoyntAPI:
         print "\tHTTP RESPONSE CODE:" + str(r.status_code)
         return r.status_code, r.text
 
+    def sendCloudMessage(self, businessId, storeId, packageName, className, data):
+        pcmUrl = self.apiHost + "/cloudMessages"
+        cloudMessage = {
+            "businessId": businessId,
+            "storeId": storeId,
+            "ttl": 500,
+            "recipient": {
+                "className": className,
+                "packageName": packageName
+            },
+            "data": data
+        }
+        code, jsonObj = self._sendPostRequest(pcmUrl, json.dumps(cloudMessage), {}, {})
+        if code == requests.codes.accepted:
+            print "Successfully sent cloud message."
+
+
     def _sendPostRequest(self, url, payload, queryParameters, customHeaders):
         requestId = str(uuid.uuid4())
         commonHeaders = { 'api-version':POYNT_API_VERSION,
@@ -381,13 +363,36 @@ class PoyntAPI:
         delta = endTime - startTime
         print "\tHTTP RESPONSE CODE:" + str(r.status_code)
         print "\tRESPONSE TIME: " + str(delta.total_seconds() * 1000) + " msecs"
-        if not r.text and self.debug:
+        if r.text and self.debug:
             print "\tRESPONSE JSON:"
             prettyPrint(r.json())
-        if not r.text:
+        if r.text:
             return r.status_code, r.json()
         else:
             return r.status_code, None
+
+    def _sendDeleteRequest(self, url, customHeaders):
+        requestId = str(uuid.uuid4())
+        commonHeaders = { 'api-version':POYNT_API_VERSION,
+                    "User-Agent": 'PoyntSample-Python',
+                    'Poynt-Request-Id': requestId,
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'Authorization': self.tokenType + " " + self.accessToken}
+        headers = dict(commonHeaders.items() + customHeaders.items())
+        startTime = datetime.now()
+        req = requests.Request('DELETE', url, headers=headers)
+        prepared = req.prepare()
+        if self.debug == True:
+            pretty_print_POST(prepared)
+        else:
+            print "\tDELETE " + url
+        s = requests.Session()
+        r = s.send(prepared)
+        endTime = datetime.now()
+        delta = endTime - startTime
+        print "\tHTTP RESPONSE CODE:" + str(r.status_code)
+        print "\tRESPONSE TIME: " + str(delta.total_seconds() * 1000) + " msecs"
+        return r.status_code
 
     def _sendPatchRequest(self, url, payload, queryParameters, customHeaders):
         requestId = str(uuid.uuid4())
@@ -516,24 +521,28 @@ def main(argv):
         if DEBUG == True:
             poyntAPI.debug = DEBUG
         if poyntAPI.getAccessToken() == True:
-            catalogs = poyntAPI.getCatalogs(BUSINESS_ID)
-            if catalogs != None:
-                for catalog in catalogs:
-                    poyntAPI.getCatalog(BUSINESS_ID, catalog["id"])
+            #catalogs = poyntAPI.getCatalogs(BUSINESS_ID)
+            #if catalogs != None:
+            #    for catalog in catalogs:
+            #        poyntAPI.getCatalog(BUSINESS_ID, catalog["id"])
                 #add a discount to one of the catalog
                 #poyntAPI.addDiscount(BUSINESS_ID, catalogs[0]["id"])
                 #get catalog to check if it's added
                 #poyntAPI.getCatalog(BUSINESS_ID, catalogs[0]["id"])
             #poyntAPI.uploadProductCatalog(BUSINESS_ID)
-            poyntAPI.getProducts(BUSINESS_ID)
-            poyntAPI.getTaxes(BUSINESS_ID)
-            poyntAPI.getCustomers(BUSINESS_ID)
-            poyntAPI.getHooks(BUSINESS_ID)
-            poyntAPI.getBusiness(BUSINESS_ID)
-            poyntAPI.getBusinessUsers(BUSINESS_ID)
+            #poyntAPI.getProducts(BUSINESS_ID)
+            #poyntAPI.getTaxes(BUSINESS_ID)
+            #poyntAPI.getCustomers(BUSINESS_ID)
+            #poyntAPI.getHooks(BUSINESS_ID)
+            #poyntAPI.getBusiness(BUSINESS_ID)
+            #poyntAPI.getBusinessUsers(BUSINESS_ID)
             poyntAPI.createOrder(BUSINESS_ID, STORE_ID)
-            poyntAPI.getOrders(BUSINESS_ID)
-            poyntAPI.refreshAccessToken()
+            #poyntAPI.getOrders(BUSINESS_ID)
+            #poyntAPI.refreshAccessToken()
+            #poyntAPI.registerWebhooks(BUSINESS_ID)
+            ## delete webhook to mark the hook as inactive (note that this doesn't delete the hook just changes it's state)
+            #poyntAPI.deleteWebhook(BUSINESS_ID, "525721fb-3e66-4394-a266-4075c7630ee9")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "com.my.android.package", "com.my.android.package.MyBroadcastReceiverClass", "Hello from the cloud.")
         else:
             print "Cannot continue without an AccessToken!"
     else:
