@@ -242,7 +242,7 @@ class PoyntAPI:
         if code == requests.codes.no_content:
             self.getHooks(businessId)
 
-    def createOrder(self, businessId, storeId):
+    def createOrder(self, businessId, storeId, paid_with_cash=False):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders"
         currentDatetime = datetime.utcnow()
         expiryDatetime = datetime.utcnow() + timedelta(seconds=300)
@@ -256,11 +256,29 @@ class PoyntAPI:
                  "quantity":1.0,
                  "tax":0,
                  "sku": "ABC123"
+              },
+              {
+                 "status":"FULFILLED",
+                 "name":"Bagel",
+                 "unitOfMeasure":"EACH",
+                 "unitPrice":150,
+                 "quantity":1.0,
+                 "tax":0,
+                 "sku": "ABC122"
+              },
+              {
+                 "status":"FULFILLED",
+                 "name":"Cream Cheese",
+                 "unitOfMeasure":"EACH",
+                 "unitPrice":100,
+                 "quantity":1.0,
+                 "tax":0,
+                 "sku": "ABC122"
               }
            ],
            "amounts": {
               "taxTotal":0,
-              "subTotal":250,
+              "subTotal":500,
               "discountTotal":0,
               "currency":"USD"
            },
@@ -276,6 +294,23 @@ class PoyntAPI:
            "createdAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
            "updatedAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
         }
+
+        if paid_with_cash:
+          order['transactions'] = [
+               {
+                "fundingSource" : {
+                  "type": "CASH"
+                },
+                "action": "SALE",
+                "amounts": {
+                  "currency": "USD",
+                  "transactionAmount": 500,
+                  "orderAmount": 500,
+                  "tipAmount": 0,
+                  "cashbackAmount": 0
+                }
+              }
+          ]
         print "Recording a new Order:"
         code, jsonObj = self._sendPostRequest(poyntOrderUrl, json.dumps(order), {}, {})
         if code == requests.codes.ok or code == requests.codes.created:
@@ -352,13 +387,13 @@ class PoyntAPI:
     def generateReceiptImage(self, businessId, storeId):
       business = self.getBusiness(businessId)
       # let's create an order so we can use it.
-      orderId = self.createOrder(businessId, storeId)
+      orderId = self.createOrder(businessId, storeId, paid_with_cash=True)
       order = self.getOrder(businessId, orderId)
       receipt_array = self._buildReceiptTXT(business, order)
-      self.generatePNGFromString(receipt_array, "./receipt_test.png")
+      self._generatePNGFromString(receipt_array, "./receipt_test.png")
       
       
-    def generatePNGFromString(self, sarray, filename):
+    def _generatePNGFromString(self, sarray, filename):
 
       height = 14*len(sarray)+120
       i = Image.new("RGB", (350,height), "white")
@@ -418,7 +453,7 @@ class PoyntAPI:
       rec.append("%s%s%s%s" % (" "*margin, "Total", " "*space_left, subt))
       
       space_left = width - 2*margin - len("Tax") - len(tax)
-      rec.append("%s%s%s%s" % (" "*margin, "Tax", " "*space_left, subt))
+      rec.append("%s%s%s%s" % (" "*margin, "Tax", " "*space_left, tax))
       
       space_left = width - 2*margin - len("Discounts") - len(discounts)
       rec.append("%s%s%s%s" % (" "*margin, "Discounts", " "*space_left, discounts))
@@ -427,6 +462,14 @@ class PoyntAPI:
 
       space_left = width - 2*margin - len("Grand Total") - len(grandt)
       rec.append("%s%s%s%s" % (" "*margin, "Grand Total", " "*space_left, grandt))
+
+      # payment transaction stuff
+      for txn in order['transactions']:
+        funding_src = txn['fundingSource']['type']
+        funding_amt = locale.currency(float(txn['amounts']['transactionAmount']) / 100.0) 
+        space_left = width - 2*margin - len(funding_src) - len(funding_amt)
+        rec.append("%s%s%s%s" % (" "*margin, funding_src, " "*space_left, funding_amt))
+        
 
       return rec
 
