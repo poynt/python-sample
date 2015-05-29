@@ -13,11 +13,15 @@ import jwt
 import ConfigParser
 import getopt
 import random
+import pprint
+import time
+import locale
 
 
 from calendar import timegm
 from datetime import datetime, timedelta
 from decimal import Decimal
+from PIL import Image, ImageDraw, ImageFont
 
 try:
     from cryptography.hazmat.backends import default_backend
@@ -206,6 +210,7 @@ class PoyntAPI:
         poyntBusinessUrl = self.apiHost + "/businesses/" + businessId
         print "Fetching Business information:"
         code, jsonObj = self._sendGetRequest(poyntBusinessUrl, {}, {})
+        return jsonObj
 
     def getBusinessUsers(self, businessId):
         poyntBusinessUsersUrl = self.apiHost + "/businesses/" + businessId + "/businessUsers"
@@ -237,7 +242,7 @@ class PoyntAPI:
         if code == requests.codes.no_content:
             self.getHooks(businessId)
 
-    def createOrder(self, businessId, storeId):
+    def createOrder(self, businessId, storeId, paid_with_cash=False):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders"
         currentDatetime = datetime.utcnow()
         expiryDatetime = datetime.utcnow() + timedelta(seconds=300)
@@ -251,11 +256,29 @@ class PoyntAPI:
                  "quantity":1.0,
                  "tax":0,
                  "sku": "ABC123"
+              },
+              {
+                 "status":"FULFILLED",
+                 "name":"Bagel",
+                 "unitOfMeasure":"EACH",
+                 "unitPrice":150,
+                 "quantity":1.0,
+                 "tax":0,
+                 "sku": "ABC122"
+              },
+              {
+                 "status":"FULFILLED",
+                 "name":"Cream Cheese",
+                 "unitOfMeasure":"EACH",
+                 "unitPrice":100,
+                 "quantity":1.0,
+                 "tax":0,
+                 "sku": "ABC122"
               }
            ],
            "amounts": {
               "taxTotal":0,
-              "subTotal":250,
+              "subTotal":500,
               "discountTotal":0,
               "currency":"USD"
            },
@@ -271,16 +294,36 @@ class PoyntAPI:
            "createdAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
            "updatedAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
         }
+
+        if paid_with_cash:
+          order['transactions'] = [
+               {
+                "fundingSource" : {
+                  "type": "CASH"
+                },
+                "action": "SALE",
+                "amounts": {
+                  "currency": "USD",
+                  "transactionAmount": 500,
+                  "orderAmount": 500,
+                  "tipAmount": 0,
+                  "cashbackAmount": 0
+                }
+              }
+          ]
         print "Recording a new Order:"
         code, jsonObj = self._sendPostRequest(poyntOrderUrl, json.dumps(order), {}, {})
         if code == requests.codes.ok or code == requests.codes.created:
             self.getOrder(businessId, jsonObj['id'])
+        return jsonObj['id']
 
     def getOrder(self, businessId, orderId):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders/" + orderId
         headers = { 'If-Modified-Since': datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ") }
         print "Fetching an Order:"
         code, jsonObj = self._sendGetRequest(poyntOrderUrl, {}, headers)
+        print str(jsonObj)
+        return jsonObj
 
     def getOrders(self, businessId):
         poyntOrdersUrl = self.apiHost + "/businesses/" + businessId + "/orders"
@@ -341,6 +384,96 @@ class PoyntAPI:
         if code == requests.codes.accepted:
             print "Successfully sent cloud message."
 
+    def generateReceiptImage(self, businessId, storeId):
+      business = self.getBusiness(businessId)
+      # let's create an order so we can use it.
+      orderId = self.createOrder(businessId, storeId, paid_with_cash=True)
+      order = self.getOrder(businessId, orderId)
+      receipt_array = self._buildReceiptTXT(business, order)
+      self._generatePNGFromString(receipt_array, "./receipt_test.png")
+      
+      
+    def _generatePNGFromString(self, sarray, filename):
+
+      height = 14*len(sarray)+120
+      i = Image.new("RGB", (350,height), "white")
+      d = ImageDraw.Draw(i)
+      imagefont = ImageFont.truetype("Courier New.ttf", 12)
+  
+      row = 0
+      for line in sarray:
+        print line
+        d.text((0,row), line.strip('\n'), font=imagefont, fill="black")
+        row += 14
+      i.save(open(filename, "wb"), "PNG")
+
+      
+    # generate a space marked up text of a receipt to use for generating a png
+    def _buildReceiptTXT(self, business, order):
+      createdTimeStruct = time.strptime(order['createdAt'], "%Y-%m-%dT%H:%M:%SZ")
+      createdTime = datetime.fromtimestamp(time.mktime(createdTimeStruct)).strftime("%a %m/%d/%Y %I:%M %p")
+      # set the local to print dollars right
+      locale.setlocale(locale.LC_ALL, "")
+      width = 50
+      margin = 4
+      rec = []
+
+      ## header
+      rec.append(" " * width)
+      rec.append(" " * width)
+      rec.append(" " * width)
+      rec.append( business['legalName'].center(width))
+      rec.append(business['address']['line1'].center(width))
+      rec.append(("%s %s %s" % (business['address']['city'], business['address']['territory'], business['address']['postalCode'])).center(width))
+      rec.append(('%s-%s' % (business['phone']['areaCode'], business['phone']['localPhoneNumber'])).center(width))
+      rec.append(" " * width)
+      rec.append(" " * width)
+      rec.append("%sTIME: %s" % (" "*margin, createdTime))
+      rec.append("%sOrder ID: #%s" % (" "*margin, order['id'].split("-")[0]))
+      rec.append(("-" * (width-2*margin)).center(width))
+      
+      #item section
+      for item in order['items']:
+        item_name = item['name']
+        if item['quantity'] != "":
+          item_cost = "%s%s@%s" % (" "*margin, item['quantity'], locale.currency(float(item['unitPrice']) / 100.0)) 
+        else:
+          item_cost = locale.currency(float(item['unitPrice']) / 100.0)
+        space_left = width - len(item_cost) - len(item_name) - 2*margin
+        rec.append("%s%s%s%s" % (" "*margin, item_name, " "*space_left, item_cost))
+      rec.append(("-" * (width-2*margin)).center(width))
+    
+      #totals
+      subt = locale.currency(float(order['amounts']['subTotal']) / 100.0) 
+      tax = locale.currency(float(order['amounts']['taxTotal']) / 100.0) 
+      discounts = "-"+locale.currency(float(order['amounts']['discountTotal']) / 100.0) 
+      grandt = locale.currency(float(order['amounts']['netTotal']) / 100.0) 
+
+      space_left = width - 2*margin - len("Total") - len(subt)
+      rec.append("%s%s%s%s" % (" "*margin, "Total", " "*space_left, subt))
+      
+      space_left = width - 2*margin - len("Tax") - len(tax)
+      rec.append("%s%s%s%s" % (" "*margin, "Tax", " "*space_left, tax))
+      
+      space_left = width - 2*margin - len("Discounts") - len(discounts)
+      rec.append("%s%s%s%s" % (" "*margin, "Discounts", " "*space_left, discounts))
+      
+      rec.append(("-" * (width-2*margin)).center(width))
+
+      space_left = width - 2*margin - len("Grand Total") - len(grandt)
+      rec.append("%s%s%s%s" % (" "*margin, "Grand Total", " "*space_left, grandt))
+
+      # payment transaction stuff
+      for txn in order['transactions']:
+        funding_src = txn['fundingSource']['type']
+        funding_amt = locale.currency(float(txn['amounts']['transactionAmount']) / 100.0) 
+        space_left = width - 2*margin - len(funding_src) - len(funding_amt)
+        rec.append("%s%s%s%s" % (" "*margin, funding_src, " "*space_left, funding_amt))
+        
+
+      return rec
+
+      
 
     def _sendPostRequest(self, url, payload, queryParameters, customHeaders):
         requestId = str(uuid.uuid4())
@@ -536,10 +669,11 @@ def main(argv):
             #poyntAPI.getHooks(BUSINESS_ID)
             #poyntAPI.getBusiness(BUSINESS_ID)
             #poyntAPI.getBusinessUsers(BUSINESS_ID)
-            poyntAPI.createOrder(BUSINESS_ID, STORE_ID)
+            #poyntAPI.createOrder(BUSINESS_ID, STORE_ID)
             #poyntAPI.getOrders(BUSINESS_ID)
             #poyntAPI.refreshAccessToken()
             #poyntAPI.registerWebhooks(BUSINESS_ID)
+            poyntAPI.generateReceiptImage(BUSINESS_ID, STORE_ID)
             ## delete webhook to mark the hook as inactive (note that this doesn't delete the hook just changes it's state)
             #poyntAPI.deleteWebhook(BUSINESS_ID, "525721fb-3e66-4394-a266-4075c7630ee9")
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "com.my.android.package", "com.my.android.package.MyBroadcastReceiverClass", "Hello from the cloud.")
