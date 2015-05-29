@@ -322,7 +322,6 @@ class PoyntAPI:
         headers = { 'If-Modified-Since': datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ") }
         print "Fetching an Order:"
         code, jsonObj = self._sendGetRequest(poyntOrderUrl, {}, headers)
-        print str(jsonObj)
         return jsonObj
 
     def getOrders(self, businessId):
