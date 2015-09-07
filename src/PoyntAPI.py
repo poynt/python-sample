@@ -282,11 +282,12 @@ class PoyntAPI:
               "discountTotal":0,
               "currency":"USD"
            },
-           "context": {
-              "source":"MOBILE",
+           "context": { 
+              "source":"WEB", 
               "businessId": businessId,
-              "storeDeviceId": self.applicationId,
-              "storeId": storeId
+              "storeId": storeId,
+              "storeDeviceId": self.applicationId, 
+              "transactionInstruction":"EXTERNALLY_PROCESSED" 
            },
            "statuses": {
               "status":"OPENED"
