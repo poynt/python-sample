@@ -688,9 +688,9 @@ def main(argv):
             ## delete webhook to mark the hook as inactive (note that this doesn't delete the hook just changes it's state)
             #poyntAPI.deleteWebhook(BUSINESS_ID, "525721fb-3e66-4394-a266-4075c7630ee9")
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "com.my.android.package", "com.my.android.package.MyBroadcastReceiverClass", "Hello from the cloud.")
-            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"authorize\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"orderId\":\"hello-order-id\"}")
-            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"sale\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\"}")
-            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"non-reference-credit\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\"}")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"authorize\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"orderId\":\"hello-order-id\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"sale\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"non-reference-credit\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
         else:
             print "Cannot continue without an AccessToken!"
     else:
