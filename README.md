@@ -8,6 +8,7 @@ $ sudo pip install PyJWT
 $ sudo pip install cryptography
 $ sudo pip install requests
 $ sudo pip install rsa
+$ sudo pip install PIL
 ```
 
 ## Usage

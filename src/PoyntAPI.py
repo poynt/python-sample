@@ -282,12 +282,11 @@ class PoyntAPI:
               "discountTotal":0,
               "currency":"USD"
            },
-           "context": { 
-              "source":"WEB", 
+           "context": {
+              "source":"WEB",
               "businessId": businessId,
               "storeId": storeId,
-              "storeDeviceId": self.applicationId, 
-              "transactionInstruction":"EXTERNALLY_PROCESSED" 
+              "storeDeviceId": self.applicationId
            },
            "statuses": {
               "status":"OPENED"
@@ -316,7 +315,9 @@ class PoyntAPI:
         code, jsonObj = self._sendPostRequest(poyntOrderUrl, json.dumps(order), {}, {})
         if code == requests.codes.ok or code == requests.codes.created:
             self.getOrder(businessId, jsonObj['id'])
-        return jsonObj['id']
+            return jsonObj['id']
+        else:
+            return ""
 
     def getOrder(self, businessId, orderId):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders/" + orderId
@@ -370,16 +371,24 @@ class PoyntAPI:
 
     def sendCloudMessage(self, businessId, storeId, packageName, className, data):
         pcmUrl = self.apiHost + "/cloudMessages"
-        cloudMessage = {
-            "businessId": businessId,
-            "storeId": storeId,
-            "ttl": 500,
-            "recipient": {
-                "className": className,
-                "packageName": packageName
-            },
-            "data": data
-        }
+        if not packageName:
+            cloudMessage = {
+                "businessId": businessId,
+                "storeId": storeId,
+                "ttl": 500,
+                "data": data
+            }
+        else:
+            cloudMessage = {
+                "businessId": businessId,
+                "storeId": storeId,
+                "ttl": 500,
+                "recipient": {
+                    "className": className,
+                    "packageName": packageName
+                },
+                "data": data
+            }
         code, jsonObj = self._sendPostRequest(pcmUrl, json.dumps(cloudMessage), {}, {})
         if code == requests.codes.accepted:
             print "Successfully sent cloud message."
@@ -391,15 +400,15 @@ class PoyntAPI:
       order = self.getOrder(businessId, orderId)
       receipt_array = self._buildReceiptTXT(business, order)
       self._generatePNGFromString(receipt_array, "./receipt_test.png")
-      
-      
+
+
     def _generatePNGFromString(self, sarray, filename):
 
       height = 14*len(sarray)+120
       i = Image.new("RGB", (350,height), "white")
       d = ImageDraw.Draw(i)
       imagefont = ImageFont.truetype("Courier New.ttf", 12)
-  
+
       row = 0
       for line in sarray:
         print line
@@ -407,7 +416,7 @@ class PoyntAPI:
         row += 14
       i.save(open(filename, "wb"), "PNG")
 
-      
+
     # generate a space marked up text of a receipt to use for generating a png
     def _buildReceiptTXT(self, business, order):
       createdTimeStruct = time.strptime(order['createdAt'], "%Y-%m-%dT%H:%M:%SZ")
@@ -431,33 +440,33 @@ class PoyntAPI:
       rec.append("%sTIME: %s" % (" "*margin, createdTime))
       rec.append("%sOrder ID: #%s" % (" "*margin, order['id'].split("-")[0]))
       rec.append(("-" * (width-2*margin)).center(width))
-      
+
       #item section
       for item in order['items']:
         item_name = item['name']
         if item['quantity'] != "":
-          item_cost = "%s%s@%s" % (" "*margin, item['quantity'], locale.currency(float(item['unitPrice']) / 100.0)) 
+          item_cost = "%s%s@%s" % (" "*margin, item['quantity'], locale.currency(float(item['unitPrice']) / 100.0))
         else:
           item_cost = locale.currency(float(item['unitPrice']) / 100.0)
         space_left = width - len(item_cost) - len(item_name) - 2*margin
         rec.append("%s%s%s%s" % (" "*margin, item_name, " "*space_left, item_cost))
       rec.append(("-" * (width-2*margin)).center(width))
-    
+
       #totals
-      subt = locale.currency(float(order['amounts']['subTotal']) / 100.0) 
-      tax = locale.currency(float(order['amounts']['taxTotal']) / 100.0) 
-      discounts = "-"+locale.currency(float(order['amounts']['discountTotal']) / 100.0) 
-      grandt = locale.currency(float(order['amounts']['netTotal']) / 100.0) 
+      subt = locale.currency(float(order['amounts']['subTotal']) / 100.0)
+      tax = locale.currency(float(order['amounts']['taxTotal']) / 100.0)
+      discounts = "-"+locale.currency(float(order['amounts']['discountTotal']) / 100.0)
+      grandt = locale.currency(float(order['amounts']['netTotal']) / 100.0)
 
       space_left = width - 2*margin - len("Total") - len(subt)
       rec.append("%s%s%s%s" % (" "*margin, "Total", " "*space_left, subt))
-      
+
       space_left = width - 2*margin - len("Tax") - len(tax)
       rec.append("%s%s%s%s" % (" "*margin, "Tax", " "*space_left, tax))
-      
+
       space_left = width - 2*margin - len("Discounts") - len(discounts)
       rec.append("%s%s%s%s" % (" "*margin, "Discounts", " "*space_left, discounts))
-      
+
       rec.append(("-" * (width-2*margin)).center(width))
 
       space_left = width - 2*margin - len("Grand Total") - len(grandt)
@@ -466,14 +475,14 @@ class PoyntAPI:
       # payment transaction stuff
       for txn in order['transactions']:
         funding_src = txn['fundingSource']['type']
-        funding_amt = locale.currency(float(txn['amounts']['transactionAmount']) / 100.0) 
+        funding_amt = locale.currency(float(txn['amounts']['transactionAmount']) / 100.0)
         space_left = width - 2*margin - len(funding_src) - len(funding_amt)
         rec.append("%s%s%s%s" % (" "*margin, funding_src, " "*space_left, funding_amt))
-        
+
 
       return rec
 
-      
+
 
     def _sendPostRequest(self, url, payload, queryParameters, customHeaders):
         requestId = str(uuid.uuid4())
@@ -496,6 +505,8 @@ class PoyntAPI:
         delta = endTime - startTime
         print "\tHTTP RESPONSE CODE:" + str(r.status_code)
         print "\tRESPONSE TIME: " + str(delta.total_seconds() * 1000) + " msecs"
+        if r.status_code == requests.codes.unauthorized:
+                    print "\t Request merchant authorization by sending them to: " + self._generateAuthzUrl()
         if r.text and self.debug:
             print "\tRESPONSE JSON:"
             prettyPrint(r.json())
@@ -575,7 +586,7 @@ class PoyntAPI:
         if self.debug == True:
             print "\tRESPONSE JSON:"
             prettyPrint(r.json())
-        if r.status_code == requests.codes.unauthorized:
+        if r.status_code == 401:
             print "\t Request merchant authorization by sending them to: " + self._generateAuthzUrl()
         return r.status_code, r.json()
 
@@ -677,6 +688,9 @@ def main(argv):
             ## delete webhook to mark the hook as inactive (note that this doesn't delete the hook just changes it's state)
             #poyntAPI.deleteWebhook(BUSINESS_ID, "525721fb-3e66-4394-a266-4075c7630ee9")
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "com.my.android.package", "com.my.android.package.MyBroadcastReceiverClass", "Hello from the cloud.")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"authorize\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"orderId\":\"hello-order-id\"}")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"sale\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\"}")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"non-reference-credit\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\"}")
         else:
             print "Cannot continue without an AccessToken!"
     else:
