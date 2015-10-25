@@ -2,7 +2,6 @@ from flask import Flask
 from flask import request
 import urllib
 import urllib2
-import PoyntAPI
 app = Flask(__name__)
 app.debug = True
 
