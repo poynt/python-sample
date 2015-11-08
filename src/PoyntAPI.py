@@ -81,6 +81,8 @@ class PoyntAPI:
             self.rsaPrivateKey = load_pem_private_key(ensure_bytes(rsa_priv_file.read()), password=None, backend=default_backend())
         with open(PUBLIC_KEY_FILE, 'r') as rsa_pub_file:
             self.rsaPublicKey = load_pem_public_key(ensure_bytes(rsa_pub_file.read()), backend=default_backend())
+	with open(POYNT_PUBLIC_KEY_FILE, 'r') as rsa_poynt_pub_file:
+            self.rsaPoyntPublicKey = load_pem_public_key(ensure_bytes(rsa_poynt_pub_file.read()), backend=default_backend())
 
 
 #the first and foremost thing we need to do is to obtain an access token
@@ -623,12 +625,16 @@ class PoyntAPI:
                     'context' : 'python-test-script'
                     }
         return poyntAuthzUrl + urllib.urlencode(params)
+    # jwt.decode verifies JWT signature and fails with jwt.exceptions.DecodeError if signature is invalid
+    def verifyJwtSignature(self):
+        claims=jwt.decode(self.accessToken, self.rsaPoyntPublicKey,algorithms=['RS256'],audience=self.applicationId)
+        print (claims)
 
 
 def main(argv):
 
     global POYNT_ENV, POYNT_API_HOST_URL, POYNT_API_VERSION, POYNT_AUTHZ_HOST_URL
-    global BUSINESS_ID, APPLICATION_ID, PRIVATE_KEY_FILE, PUBLIC_KEY_FILE, DEBUG
+    global BUSINESS_ID, APPLICATION_ID, PRIVATE_KEY_FILE, PUBLIC_KEY_FILE, POYNT_PUBLIC_KEY_FILE, DEBUG
 
     POYNT_ENV = 'LIVE'
     DEBUG = False
@@ -659,6 +665,7 @@ def main(argv):
     APPLICATION_ID = POYNT_CONFIG.get(POYNT_ENV,'APPLICATION_ID')
     PRIVATE_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'PRIVATE_KEY_FILE')
     PUBLIC_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'PUBLIC_KEY_FILE')
+    POYNT_PUBLIC_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'POYNT_PUBLIC_KEY_FILE')
 
     if(has_crypto):
         poyntAPI = PoyntAPI(POYNT_API_HOST_URL, APPLICATION_ID)
@@ -691,6 +698,7 @@ def main(argv):
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"authorize\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"orderId\":\"hello-order-id\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"sale\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"non-reference-credit\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
+	    #poyntAPI.verifyJwtSignature()
         else:
             print "Cannot continue without an AccessToken!"
     else:
