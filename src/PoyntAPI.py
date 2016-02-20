@@ -323,16 +323,17 @@ class PoyntAPI:
 
     def getOrder(self, businessId, orderId):
         poyntOrderUrl = self.apiHost + "/businesses/" + businessId + "/orders/" + orderId
-        headers = { 'If-Modified-Since': datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ") }
         print "Fetching an Order:"
-        code, jsonObj = self._sendGetRequest(poyntOrderUrl, {}, headers)
+        code, jsonObj = self._sendGetRequest(poyntOrderUrl, {}, {})
         return jsonObj
 
     def getOrders(self, businessId):
         poyntOrdersUrl = self.apiHost + "/businesses/" + businessId + "/orders"
-        print "Fetching last 5 Orders:"
+        print "Fetching last 5 Orders updated in the last 1 month:"
+        lastHourDateTime = datetime.now() +  timedelta(hours=24*30)
+        headers = { 'If-Modified-Since': lastHourDateTime.strftime("%Y-%m-%dT%H:%M:%SZ") }
         queryParameters = { 'limit': 5 }
-        code, jsonObj = self._sendGetRequest(poyntOrdersUrl, queryParameters, {})
+        code, jsonObj = self._sendGetRequest(poyntOrdersUrl, queryParameters, headers)
 
     def uploadProductCatalog(self, businessId):
         # generate a random catalog name so we don't overwrite existing ones
@@ -616,7 +617,12 @@ class PoyntAPI:
             prettyPrint(r.json())
         if r.status_code == requests.codes.unauthorized:
             print "\t Request merchant authorization by sending them to: " + self._generateAuthzUrl()
-        return r.status_code, r.json()
+
+        if r.status_code == requests.codes.not_modified:
+            print "\t Order not modified since given if-modified-since time"
+            return r.status_code, {} 
+        else:
+            return r.status_code, r.json()
 
     def _generateAuthzUrl(self):
         poyntAuthzUrl = POYNT_AUTHZ_HOST_URL + "/applications/authorize?"
