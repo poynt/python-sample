@@ -639,7 +639,7 @@ class PoyntAPI:
 
 
 def main(argv):
-    base_dir=base_dir=os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
+    base_dir=os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
 
     global POYNT_ENV, POYNT_API_HOST_URL, POYNT_API_VERSION, POYNT_AUTHZ_HOST_URL
     global BUSINESS_ID, APPLICATION_ID, PRIVATE_KEY_FILE, PUBLIC_KEY_FILE, POYNT_PUBLIC_KEY_FILE, DEBUG
