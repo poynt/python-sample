@@ -16,6 +16,7 @@ import random
 import pprint
 import time
 import locale
+import os
 
 
 from calendar import timegm
@@ -638,6 +639,7 @@ class PoyntAPI:
 
 
 def main(argv):
+    base_dir=os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
 
     global POYNT_ENV, POYNT_API_HOST_URL, POYNT_API_VERSION, POYNT_AUTHZ_HOST_URL
     global BUSINESS_ID, APPLICATION_ID, PRIVATE_KEY_FILE, PUBLIC_KEY_FILE, POYNT_PUBLIC_KEY_FILE, DEBUG
@@ -661,7 +663,7 @@ def main(argv):
             DEBUG = True
 
     print "Executing APIs in ", POYNT_ENV
-    POYNT_CONFIG.read('config/poynt.ini')
+    POYNT_CONFIG.read(base_dir + '/config/poynt.ini')
     ### POYNT API URL and VERSION, Application settings
     POYNT_API_HOST_URL = POYNT_CONFIG.get(POYNT_ENV,'POYNT_API_HOST_URL')
     POYNT_API_VERSION = POYNT_CONFIG.get(POYNT_ENV,'POYNT_API_VERSION')
@@ -669,9 +671,9 @@ def main(argv):
     BUSINESS_ID = POYNT_CONFIG.get(POYNT_ENV,'BUSINESS_ID')
     STORE_ID = POYNT_CONFIG.get(POYNT_ENV,'STORE_ID')
     APPLICATION_ID = POYNT_CONFIG.get(POYNT_ENV,'APPLICATION_ID')
-    PRIVATE_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'PRIVATE_KEY_FILE')
-    PUBLIC_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'PUBLIC_KEY_FILE')
-    POYNT_PUBLIC_KEY_FILE = POYNT_CONFIG.get(POYNT_ENV,'POYNT_PUBLIC_KEY_FILE')
+    PRIVATE_KEY_FILE = base_dir + '/' + POYNT_CONFIG.get(POYNT_ENV,'PRIVATE_KEY_FILE')
+    PUBLIC_KEY_FILE = base_dir + '/' + POYNT_CONFIG.get(POYNT_ENV,'PUBLIC_KEY_FILE')
+    POYNT_PUBLIC_KEY_FILE = base_dir + '/' + POYNT_CONFIG.get(POYNT_ENV,'POYNT_PUBLIC_KEY_FILE')
 
     if(has_crypto):
         poyntAPI = PoyntAPI(POYNT_API_HOST_URL, APPLICATION_ID)
