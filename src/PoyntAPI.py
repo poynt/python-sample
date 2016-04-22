@@ -706,6 +706,7 @@ def main(argv):
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"authorize\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"orderId\":\"hello-order-id\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"sale\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
             #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"non-reference-credit\", \"purchaseAmount\": 1000, \"tipAmount\": 100, \"currency\":\"USD\", \"referenceId\":\"ABC1234\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
+            #poyntAPI.sendCloudMessage(BUSINESS_ID, STORE_ID, "", "", "{\"action\":\"refund\", \"transactionId\":\"{transactionId}\",\"referenceId\":\"ABC1234\", \"callbackUrl\":\"http%3A%2F%2Frequestb.in%2F11odyf81\"}")
 	    #poyntAPI.verifyJwtSignature()
         else:
             print "Cannot continue without an AccessToken!"
