@@ -38,4 +38,4 @@ If the script fails with `requests.exceptions.ConnectionError: ('Connection abor
 3. `brew link openssl --force`
 4. `brew install python --with-brewed-openssl`
 
-Once done run `which python` in Terminal and check the python script to make sure the path to your python binary matches.
+Once done run `which python` in Terminal and check the python script to make sure the path to your python binary matches (i.e. `#!/usr/bin/python` or `#!/usr/local/bin/python`)
