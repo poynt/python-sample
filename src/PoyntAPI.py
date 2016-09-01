@@ -628,7 +628,7 @@ class PoyntAPI:
     def _generateAuthzUrl(self):
         poyntAuthzUrl = POYNT_AUTHZ_HOST_URL + "/applications/authorize?"
         params = { 'applicationId' : self.applicationId,
-                    'callback' : 'http://alavilli.com/dump.php',
+                    'callback' : 'https://your-site.com/update-this-url',
                     'context' : 'python-test-script'
                     }
         return poyntAuthzUrl + urllib.urlencode(params)
